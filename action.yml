@@ -1,4 +1,4 @@
-name: 'GitHub Project Automation+'
+name: 'Hayuna GitHub Project Automation+'
 description: '🤖 Automate GitHub Project cards with any webhook event'
 author: 'Alex Page <alex@alexpage.com.au>'
 inputs:
