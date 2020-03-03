@@ -4,26 +4,23 @@ const github = require('@actions/github');
 const token = core.getInput('repo-token');
 const project = core.getInput('project');
 const column = core.getInput('column');
-const prefix = core.getInput('prefix');
+//const prefix = core.getInput('prefix');
+const prefix = "APRE";
 
 const octokit = new github.GitHub(token);
 
+const zeroPad = (num) => String(num).padStart(4, '0')
+
 const getData = () => {
     const {eventName, payload} = github.context;
-    console.log(github.context)
-    console.log(eventName)
-    console.log(payload)
 	if (eventName !== 'issues') {
 		throw new Error(`Only issues allowed, received:\n${eventName}`);
 	}
 
 	const githubData = payload.issue;
-
+	githubData.title = `${prefix}-${zeroPad(githubData.number)} - ${githubData.title}`
 	return {
-		all: github.context,
-		all2: eventName,
-		all3: payload,
-		all4: githubData,
+		githubData,
 		eventName,
 		action: payload.action,
 		nodeId: githubData.node_id,
@@ -33,15 +30,8 @@ const getData = () => {
 
 (async () => {
 	try {
-		const {eventName, action, nodeId, url, all, all2, all3, all4} = getData();
-		console.log('eventName', eventName);
-		console.log('action', action);
-		console.log('nodeId', nodeId);
-		console.log('url', url);
-		console.log('all', all);
-		console.log('all2', all2);
-		console.log('all3', all3);
-		console.log('all4', all4);
+		const {eventName, action, nodeId, url, githubData} = getData();
+		console.log(githubData);
 		// Get the column ID  from searching for the project and card Id if it exists
 		const fetchColumnQuery = `query {
 			resource( url: "${url}" ) {
