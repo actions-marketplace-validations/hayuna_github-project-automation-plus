@@ -20,6 +20,10 @@ const getData = () => {
 	const githubData = payload.issue;
 
 	return {
+		all: github.context,
+		all2: eventName,
+		all3: payload,
+		all4: githubData,
 		eventName,
 		action: payload.action,
 		nodeId: githubData.node_id,
@@ -29,8 +33,15 @@ const getData = () => {
 
 (async () => {
 	try {
-		const {eventName, action, nodeId, url} = getData();
-
+		const {eventName, action, nodeId, url, all, all2, all3, all4} = getData();
+		console.log('eventName', eventName);
+		console.log('action', action);
+		console.log('nodeId', nodeId);
+		console.log('url', url);
+		console.log('all', all);
+		console.log('all2', all2);
+		console.log('all3', all3);
+		console.log('all4', all4);
 		// Get the column ID  from searching for the project and card Id if it exists
 		const fetchColumnQuery = `query {
 			resource( url: "${url}" ) {
